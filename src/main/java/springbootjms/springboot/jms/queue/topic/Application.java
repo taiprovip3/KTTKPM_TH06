@@ -16,6 +16,7 @@ import springbootjms.springboot.jms.queue.topic.entity.Product;
 public class Application {
 	
 	private static final String MESSAGE_QUEUE = "message_queue";
+	private static final String TOPIC_NAME = "message_topic";
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
@@ -27,8 +28,12 @@ public class Application {
 			p.setId(i);
 			p.setName("Pandora Box " + i);
 			p.setQuantity(new Random().nextInt(10000 - 1 + 1) + 1);
+			
 			System.out.println("Sending product: " + i);
+			
 			jmsTemplate.convertAndSend(MESSAGE_QUEUE, p);
+			
+			jmsTemplate.convertAndSend(TOPIC_NAME, p);
 		}
 	}
 
